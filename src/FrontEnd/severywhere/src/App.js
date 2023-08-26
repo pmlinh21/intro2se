@@ -1,0 +1,159 @@
+import './App.module.css';
+
+import HomePage from './Pages/HomePage/HomePage';
+import Login from './Pages/Login/Login';
+import Signup from './Pages/Signup/Signup';
+import EditProfile from './Pages/Profile/EditProfile';
+import ResetPasswordEmail from './Pages/ResetPasswordEmail/ResetPasswordEmail';
+import ResetPassword from './Pages/ResetPassword/ResetPassword';
+import ChangePassword from './Pages/ChangePassword/ChangePassword';
+import AboutUs_FAQ from './Pages/AboutUs_FAQ/AboutUs_FAQ';
+import Search from './Pages/Search/Search';
+import TourPage from './Pages/TourPage/TourPage';
+import TourGuidePage from './Pages/TourGuidePage/TourGuidePage';
+import CheckoutTour from './Pages/CheckoutPage/CheckoutTour';
+import CheckoutGuide from './Pages/CheckoutPage/CheckoutGuide';
+import MyGuide from './Pages/MyOrders/MyGuide';
+import MyTours from './Pages/MyOrders/MyTours';
+
+import ProfileFreelancer from "./Pages/Freelancer/ProfileFreelancer";
+import CalendarFreelancer from "./Pages/Freelancer/CalendarFreelancer";
+import StatisticsFreelancer from "./Pages/Freelancer/StatisticsFreelancer";
+import LicenseFreelancer from "./Pages/Freelancer/LicenseFreelancer";
+import BookingFreelancer from "./Pages/Freelancer/BookingFreelancer";
+import ViewFreelancer from "./Pages/Freelancer/ViewFreelancer";
+
+import ProfileCompany from './Pages/Company/ProfileCompany';
+import LicenseCompany from './Pages/Company/LicenseCompany';
+import TourCompany from './Pages/Company/TourCompany';
+import StatisticsCompany from './Pages/Company/StatisticCompany';
+import BookingCompany from './Pages/Company/BookingCompany';
+import ReviewCompany from './Pages/Company/ReviewCompany'
+import ViewTourCompany from './Pages/Company/ViewTourCompany';
+
+// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { createBrowserHistory } from "history";
+import { useSelector } from 'react-redux';
+import { useEffect,useState } from 'react';
+import React from 'react';
+// import { useHistory } from 'react-router-dom';
+// import { createBrowserHistory } from "history";
+import { Route, Switch, Router } from "react-router-dom";
+
+import { AdminTemplate } from './templates/AdminTemplate/AdminTemplate'; 
+import ProfileAdmin from "./Pages/Admin/ProfileAdmin/ProfileAdmin";
+import AboutUs from "./Pages/Admin/FAQ/AboutUs";
+import Dashboard from "./Pages/Admin/Dashboard/Dashboard";
+import TouristListing from './Pages/Admin/Users/Tourists/TouristListing';
+import TouristDetails from './Pages/Admin/Users/Tourists/TouristDetails';
+import CompanyListing from './Pages/Admin/Users/Companies/CompanyListing';
+import CompanyDetails from './Pages/Admin/Users/Companies/CompanyDetails';
+import FreelancerListing from './Pages/Admin/Users/Freelancers/FreelancerListing';
+import FreelancerDetails from './Pages/Admin/Users/Freelancers/FreelancerDetails';
+import TourListing from './Pages/Admin/Tours/TourListing';
+import TourDetails from './Pages/Admin/Tours/TourDetails';
+import BookingListing from './Pages/Admin/Bookings/BookingListing';
+import BookingGuideDetails from './Pages/Admin/Bookings/BookingGuideDetails';
+import BookingTourDetails from './Pages/Admin/Bookings/BookingTourDetails';
+
+export const history = createBrowserHistory();
+
+function App() {
+  const role = useSelector(state => state.BasicReducer.user_login.id_role) || 0
+  console.log(role)
+  
+  return (
+    <Router history={history}>
+    <div className = "App">
+      <Switch>
+        
+{/*all users*/}        
+        <Route path = "/aboutus" exact component = {AboutUs_FAQ} />
+
+{/*guest*/}
+        {
+          (role !== 1)  && (role !== 2)  && (role !== 3) && (role !== 4) && (
+            <>
+            <Route path = "/" exact component={HomePage} />
+            <Route path = "/signup" exact component={Signup} />
+            <Route path = "/login" exact component ={Login} />
+            <Route path = "/emailResetpw" exact component = {ResetPasswordEmail} />
+            <Route path = "/resetpw" exact component = {ResetPassword} />
+            <Route path = "/search" exact component = {Search} />
+            <Route path = "/tourpage" exact component = {TourPage} />
+            <Route path = "/tourguidepage" exact component = {TourGuidePage} />
+            </>
+          )
+        }
+{/*tourist*/}
+        {
+          role === 1 && (
+            <>
+            <Route path = "/" exact component={HomePage} />
+            <Route path = "/editprofile" exact component = {EditProfile} />
+            <Route path = "/changepw" exact component = {ChangePassword} />
+            <Route path = "/search" exact component = {Search} />
+            <Route path = "/tourpage" exact component = {TourPage} />
+            <Route path = "/checkoutTour" exact component = {CheckoutTour} />
+            <Route path = "/tourguidepage" exact component = {TourGuidePage} />
+            <Route path = "/checkouttour" exact component ={CheckoutTour} />
+            <Route path = "/checkoutguide" exact component ={CheckoutGuide} />
+            <Route path = "/myguide" exact component ={MyGuide} />
+            <Route path = "/mytours" exact component ={MyTours} />
+            </>
+          )
+        }
+{/*freelancer*/}
+        {
+          role === 3 && (
+            <>
+            <Route path = "/profile-freelancer" exact component ={ProfileFreelancer} />
+            <Route path = "/license-freelancer" exact component ={LicenseFreelancer} />
+            <Route path = "/calendar-freelancer" exact component ={CalendarFreelancer} />
+            <Route path = "/booking-freelancer" exact component ={BookingFreelancer} />
+            <Route path = "/statistics-freelancer" exact component ={StatisticsFreelancer} />
+            {/* <Route path = "/view-freelancer" exact component ={ViewFreelancer} /> */}
+            </>
+          )
+        }
+{/*company*/}
+        {
+          role === 2 && (
+            <>
+            <Route path = "/profile-company" exact component ={ProfileCompany} />
+            <Route path = "/license-company" exact component ={LicenseCompany} />
+            <Route path = "/tour-company" exact component ={TourCompany} />
+            <Route path = "/statistics-company" exact component ={StatisticsCompany} />
+            <Route path = "/booking-company" exact component ={BookingCompany} />
+            <Route path = "/review-company" exact component ={ReviewCompany} />
+            <Route path = "/viewtour-company" exact component = {ViewTourCompany} />
+            </>
+          )
+        }
+        {
+            role === 4 && (
+              <>
+              <AdminTemplate path="/profile-admin" exact Component={ProfileAdmin}/>
+              <Route path = "/aboutus-admin" exact component ={AboutUs} />
+              <AdminTemplate path="/dashboard" exact Component={Dashboard}/>
+              <AdminTemplate path="/tourists-admin" exact Component={TouristListing}/>
+              <AdminTemplate path="/tourists-admin/:id_tourist" exact Component={TouristDetails}/>
+              <AdminTemplate path="/companies-admin" exact Component={CompanyListing}/>
+              <AdminTemplate path="/companies-admin/:id_company" exact Component={CompanyDetails}/>
+              <AdminTemplate path="/freelancers-admin" exact Component={FreelancerListing}/>
+              <AdminTemplate path="/freelancers-admin/:id_guide" exact Component={FreelancerDetails}/>
+              <AdminTemplate path="/tours-admin" exact Component={TourListing}/>
+              <AdminTemplate path="/tours-admin/:id_tour" exact Component={TourDetails}/>
+              <AdminTemplate path="/bookings-admin" exact Component={BookingListing}/>
+              <AdminTemplate path="/bookings-admin/guide/:id_guidebooking" exact Component={BookingGuideDetails}/>
+              <AdminTemplate path="/bookings-admin/tour/:id_tour" exact Component={BookingTourDetails}/>
+              </>
+            )
+          }
+      </Switch>
+    </div>
+  </Router>
+  )
+}
+
+export default App
